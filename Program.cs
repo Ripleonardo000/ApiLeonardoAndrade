@@ -1,4 +1,10 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ApiLeonardoAndrade.Data;
+using ApiLeonardoAndrade.Controllers;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApiLeonardoAndradeContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ApiLeonardoAndradeContext") ?? throw new InvalidOperationException("Connection string 'ApiLeonardoAndradeContext' not found.")));
 
 // Add services to the container.
 
@@ -21,5 +27,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapBurgerEndpoints();
+
+app.MapPromoEndpoints();
 
 app.Run();
